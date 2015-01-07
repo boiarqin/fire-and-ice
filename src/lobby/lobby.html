@@ -1,0 +1,20 @@
+<h1>Fire &amp; Ice</h1>
+<div class="lobby-left">
+	<h2>Continue game:</h2>
+	<ul class="lobby-list">
+		<li ng-repeat="game in games">
+			<strong>#{{game.id}}</strong> as 
+			player name
+			opponent name
+			board thumbnail
+		</li>
+	</ul>
+</div>
+<div class="lobby-right">
+	<h2>Start a new game:</h2>
+	Join the
+	<button ng-click="init('fire')">Fire Nation</button>
+	or
+    <button ng-click="init('ice')">Ice Kingdom</button>
+    <button ng-click="openRules()">Read the Rules</button>
+</div>

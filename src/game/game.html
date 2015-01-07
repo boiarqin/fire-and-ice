@@ -1,0 +1,81 @@
+
+<div ng-controller="boardCtrl">
+    <h1>Game #{{game.gameId}} <span class="help" ng-click="openRules()">?</span></h1>
+    <div class="config-overlay clearfix" ng-if="!game.hasSecondPlayer">
+        Waiting for second player to join...
+    </div>
+    <div class="config-overlay" ng-if="game.hasSecondPlayer && !game.team && !game.roster">
+        <strong>Both players have joined! Select an army to command:</strong>
+        <button ng-click="setTeam('fire')">Fire Nation</button>
+        or
+        <button ng-click="setTeam('ice')">Ice Kingdom</button>
+    </div>
+    <div class="config-overlay clearfix" ng-if="game.team && !game.roster">
+        <p>You command the {{game.teamNames[game.team]}}. Opponent commands the {{game.teamNames[game.opponent]}}.</p>
+        <p><strong>Select your starting configuration:</strong></p>
+        <div class="config-option clearfix" ng-repeat="configuration in deboer track by $index" ng-click="initPieces($index)">
+            <strong>Option {{$index}}</strong>
+            <div class="starting-configuration">
+                <div ng-repeat="piece in configuration track by $index">
+                    {{piece}}
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<ul class="board">
+        <boardsquare ng-repeat="boardsquare in game.board track by $index" boardsquare-object="boardsquare" is-void="{{boardsquare === 'void'}}" square-highlighted="{{boardsquare.highlighted}}" square-selected="{{boardsquare.selected}}" square-lastmove="{{game.lastmove.attacker.position}}"></boardsquare> 
+    </ul>
+
+    <div class="sidebar neutral lastmove">
+        <strong ng-if="game.turn && !game.victor">It is the {{game.teamNames[game.turn]}}'s turn to move.</strong>
+        <strong ng-if="game.victor">
+            <span ng-if="game.gameover.noMovesLeft">The {{game.teamNames[(game.victor === 'ice' ? 'fire' : 'ice')]}} has no moves left.</span>
+            <span ng-if="game.gameover.capturedFlag">The {{game.teamNames[(game.victor === 'ice' ? 'fire' : 'ice')]}}'s flag has been captured.</span>
+            The {{game.teamNames[game.victor]}} wins!
+        </strong>
+        <br/><br/>
+        <strong ng-if="game.lastmove.type">Last Move:</strong>
+        <div ng-if="game.lastmove.type === 'move'">
+            <span class="piece" ng-class="game.lastmove.attacker.team">
+                <img class="piece-image" ng-if="game.lastmove.attacker.rank" ng-src="./images/pieces/thumbnail/{{game.lastmove.attacker.team}}/{{game.lastmove.attacker.team}}-{{game.lastmove.attacker.rank}}.jpg"/>
+                <span class="piece-rank" ng-if="game.lastmove.attacker.rank">{{game.lastmove.attacker.rank}}</span>
+            </span>
+            moved. 
+        </div>
+        <div ng-if="game.lastmove.type === 'attack'">
+            <span class="piece" ng-class="game.lastmove.attacker.team">
+                <img class="piece-image" ng-src="./images/pieces/thumbnail/{{game.lastmove.attacker.team}}/{{game.lastmove.attacker.team}}-{{game.lastmove.attacker.rank}}.jpg"/>
+                <span class="piece-rank" >{{game.lastmove.attacker.rank}}</span>
+            </span>
+            attacked 
+            <span class="piece" ng-class="game.lastmove.defender.team">
+                <img class="piece-image" ng-src="./images/pieces/thumbnail/{{game.lastmove.defender.team}}/{{game.lastmove.defender.team}}-{{game.lastmove.defender.rank}}.jpg"/>
+                <span class="piece-rank" >{{game.lastmove.defender.rank}}</span>
+            </span>
+            and {{game.lastmove.outcome}}.
+        </div>
+    </div>
+
+    <div class="sidebar stats neutral" ng-controller="statsCtrl">
+    	<span ng-if="game.team">
+        	You command the {{game.teamNames[game.team]}}.<br/>
+        	Opponent commands the {{game.teamNames[game.opponent]}}.
+        </span>
+        <br/>
+        <br/>
+        <ul class="roster" ng-if="game.team">
+        	<li ng-repeat="piece in piecesList">
+        		<span class="piece" ng-class="team">
+        			<img class="piece-image" ng-src="./images/pieces/thumbnail/{{game.team}}/{{game.team}}-{{piece.rank}}.jpg"/>
+        			<span class="piece-rank">{{piece.rank}}</span>
+        		</span>
+        		<span class="piece-text">
+        			<span class="piece-name">{{piece.pieceName}}</span><br/>
+        			<span class="piece-total">{{game.roster[piece.rank]}} / {{piece.total}}</span>
+        		</span>
+        	</li>
+        </ul>
+
+	</div>
+</div>

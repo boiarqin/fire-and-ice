@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fire &amp; Ice</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/bower_components/html5-boilerplate/css/normalize.css">
+  <link rel="stylesheet" href="/bower_components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="/bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+  <script src="/bower_components/jQuery/dist/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body ng-controller="myAppController">
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+    <div ng-view></div>
+  
+    
+  <div class="modal rules-modal">
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <a href="" class="modal-close" ng-click="closeRules()">X</a>
+
+            <h2>Fire &amp; Ice</h2>
+            <p>Fire &amp; Ice is a strategy board game for two players on a 10×10 square board. Each player controls 40 pieces representing individual officers and soldiers in an army.</p>
+            <p>The objective of the game is to find and capture the opponent's Flag, or to capture so many enemy pieces that the opponent cannot make any further moves. Players cannot see the ranks of one another's pieces, so disinformation and discovery are important facets to gameplay.</p>
+
+            <h2>Gameplay</h2>
+            <p>Typically, one player uses red pieces, and the other uses blue pieces. Pieces are colored on both sides, so players can easily distinguish between their own and their opponent's. Ranks are printed on one side only and placed so that players cannot identify specific opponent's pieces. 
+              <ul>
+                <li>Players arrange their 40 pieces in a 4×10 configuration at either end of the board.</li>
+                <li>Each player moves one piece per turn.</li>
+                <li>If a piece is moved onto a square occupied by an opposing piece, their identities are revealed; the weaker piece (there are exceptions; see below) is removed from the board.
+                  <ul>
+                    <li>If the weaker piece was the attacker that piece is removed from the board.</li>
+                    <li>If the attacker is the stronger piece, it will remove the weaker piece and occupy its square.</li>
+                    <li>If the engaging pieces are of equal rank, the defending piece is removed.</li>
+                  </ul>
+                <li>A piece may not move onto a square already occupied unless it attacks.</li>
+                <li>Two zones in the middle of the board, each 2×2, cannot be entered by either player's pieces at any time. They are shown as lakes on the battlefield and serve as choke points to make frontal assaults less direct.</li>
+                <li>The object is to capture the opponent's flag or make them surrender. In the event of no movable pieces for a player, the opponent is the winner.</li>
+              </ul>
+            </p>
+            <h2>Pieces</h2>
+            <table class="pieces-table">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">Rank #</th>
+                        <th>Piece</th>
+                        <th style="text-align:center;">Total Available</th>
+                        <th>Special Abilities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="piece in piecesList">
+                        <td style="text-align:center;">{{piece.rank}}</td>
+                        <td>{{piece.pieceName}}</td>
+                        <td style="text-align:center;">{{piece.total}}</td>
+                        <td>{{piece.ability}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <div class="footer">...everything changed when the Fire Nation attacked.</div>
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-socket-io/socket.js"></script>
+  <script src="app.js"></script>
+  <script src="board/board.js"></script>
+  <script src="stats/stats.js"></script>
+</body>
+</html>
