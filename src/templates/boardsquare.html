@@ -1,4 +1,0 @@
-<li class="board-square boardsquare" position="{{$index}}" ng-class="{'highlighted':highlighted, 'selected':selected, 'islastmove':lastmove == position}">
-	<piece class="piece" ng-class="piece.team" ng-if="piece.team" team="{{piece.team}}" rank="{{piece.rank}}" position="{{position}}"></piece>
-    <span class="overlay" ng-class="{void:isVoid}" ng-if="!piece.team" ng-click="clickSquare()"></span>
-</li>

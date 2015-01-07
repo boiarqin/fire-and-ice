@@ -5,7 +5,9 @@ angular.module('myApp', [
   	'ngRoute',
   	'btford.socket-io',
 	'myApp.board',
-	'myApp.stats'
+	'myApp.stats',
+	'myApp.boardsquare',
+	'myApp.piece'
 ])
 .factory('mySocket', function (socketFactory) {
 	var mySocket = socketFactory({
