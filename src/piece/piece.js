@@ -1,14 +1,40 @@
-directive('piece', function(){
+angular.module('myApp.piece',[])
+.directive('piece', function(){
 	return {
 		restrict: 'E',
+		templateUrl: 'piece/piece.html',
+		replace: false,
 		scope: {
-			team: '&',
-			rank: '&',
+			team: '@',
+			rank: '@',
+			position: '@',
 		},
-		link: function(scope, el, attr){
-			el.on('click', function(){
-				alert(scope.team + scope.rank);
-			})
+		//controller: 'boardCtrl',
+		link: function($scope, el, attr, controller){
+			$scope.isVisible = true;
+			//$scope.isVisible = (controller.game.team);
+			//console.log($scope.$parent.$parent.$parent.team);
+			$scope.clickPiece = function(){
+				//console.log('clickPiece');
+				if ($scope.$parent.$parent.$parent.game.start && $scope.$parent.$parent.$parent.game.team === $scope.$parent.$parent.$parent.game.turn){
+					if ($scope.$parent.$parent.selected){
+						//el.removeClass('selected');
+						$scope.$emit('CANCELPIECE');
+					}
+					//SECOND CLICK: ALREADY HIGHLIGHTED
+					else if ($scope.$parent.$parent.highlighted) {
+						$scope.$emit('ATTACKPIECE', $scope);	
+					}
+					//FIRST CLICK
+					else{
+						if ($scope.team === $scope.$parent.$parent.$parent.game.team){
+							$scope.$emit('SELECTPIECE', $scope);
+
+						}
+					}
+				}
+				
+			};
 		}
 	}
 
